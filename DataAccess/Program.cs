@@ -28,7 +28,7 @@ namespace DataAccess
 
                 }
             }
-            // Conecta e encerra a conexão com o Banco ter o risco dela ficar aberta
+            // utilizar o Using Conecta e encerra a conexão com o Banco ter o risco dela ficar aberta
 
         }
     }
