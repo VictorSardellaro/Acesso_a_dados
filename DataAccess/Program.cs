@@ -1,5 +1,9 @@
 ﻿using System;
+using Dapper;
 using Microsoft.Data.SqlClient;
+using DataAccess.Models;
+
+// Dapper
 
 namespace DataAccess
 {
@@ -12,23 +16,12 @@ namespace DataAccess
 
             using (var connection = new SqlConnection(connectionString))
             {
-                System.Console.WriteLine("Conectado");
-                connection.Open();
-                using (var command = new SqlCommand())
+                var categories = connection.Query<Category>("SELECT [Id], [Title] FROM [Category]");
+                foreach (var category in categories)
                 {
-                    command.Connection = connection;
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.CommandText = "SELECT [Id], [Title] FROM [Category]";
-
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        System.Console.WriteLine($"{reader.GetGuid(0)} - {reader.GetString(1)}");
-                    }
-
+                    System.Console.WriteLine($"{category.Id} - {category.Title}");
                 }
             }
-            // utilizar o Using Conecta e encerra a conexão com o Banco ter o risco dela ficar aberta
 
         }
     }

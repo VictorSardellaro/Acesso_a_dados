@@ -42,3 +42,4 @@ D:\Repository\DataAccess\DataAccess\obj\Debug\net5.0\DataAccess.dll
 D:\Repository\DataAccess\DataAccess\obj\Debug\net5.0\ref\DataAccess.dll
 D:\Repository\DataAccess\DataAccess\obj\Debug\net5.0\DataAccess.pdb
 D:\Repository\DataAccess\DataAccess\obj\Debug\net5.0\DataAccess.genruntimeconfig.cache
+D:\Repository\DataAccess\DataAccess\bin\Debug\net5.0\Dapper.dll

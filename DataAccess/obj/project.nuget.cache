@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Kz/LM7P9n3GkmomPOoGealhTpwCZqzOHOIof3bzlts/NQmTWDq6qP0CywKtS7aP1vsBt51VDCSQFpgJ1ws3xUA==",
+  "dgSpecHash": "TFot0uXvGxmr/DiSc67fnpWvlH6YJX/lZHrscWXddImmoLXM7rvhBWCKXAj7su6qyKvSmpb1WkfX+UhMUvuEzA==",
   "success": true,
   "projectFilePath": "D:\\Repository\\DataAccess\\DataAccess\\DataAccess.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\victo\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.3\\microsoft.data.sqlclient.2.1.3.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
