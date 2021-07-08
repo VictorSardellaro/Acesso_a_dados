@@ -2,6 +2,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using DataAccess.Models;
+using System.Data;
 
 // Dapper
 
@@ -18,9 +19,10 @@ namespace DataAccess
 
             using (var connection = new SqlConnection(connectionString))
             {
+                ExecuteProcedure(connection);
                 //CreateManyCategory(connection);
                 //UpdateCategory(connection);
-                ListCategories(connection);
+                //ListCategories(connection);
                 //CreateCategory(connection);
                 //GetCategory(connection);
 
@@ -177,6 +179,18 @@ namespace DataAccess
 
         }
 
+
+        static void ExecuteProcedure(SqlConnection connection)
+        {
+            var procedure = "spDeleteStudent";
+            var pars = new { StudentId = "af84fa33-f2b8-4416-90d0-64a06a8b4ff0" };
+            var affectedRows = connection.Execute(
+                procedure,
+                pars,
+                commandType: CommandType.StoredProcedure);
+
+            Console.WriteLine($"{affectedRows} linhas afetadas");
+        }
     }
 }
 
