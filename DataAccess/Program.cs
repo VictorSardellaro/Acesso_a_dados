@@ -25,7 +25,8 @@ namespace DataAccess
                 //ListCategories(connection);
                 //CreateCategory(connection);
                 //GetCategory(connection);
-                ExecuteReadProcedure(connection);
+                //ExecuteReadProcedure(connection);
+                ExecuteScalar(connection);
 
             }
 
@@ -180,7 +181,6 @@ namespace DataAccess
 
         }
 
-
         static void ExecuteProcedure(SqlConnection connection)
         {
             var procedure = "spDeleteStudent";
@@ -206,6 +206,44 @@ namespace DataAccess
             {
                 System.Console.WriteLine(item.Title);
             };
+        }
+
+        static void ExecuteScalar(SqlConnection connection)
+        {
+            var category = new Category();
+            category.Title = "Amazon AWS";
+            category.Url = "amazon";
+            category.Description = "Categoria destinada a serviços do AWS";
+            category.Order = 8;
+            category.Summary = "AWS Cloud";
+            category.Featured = false;
+
+
+            var insertSql = @"
+            INSERT INTO 
+                    [Category] 
+            OUTPUT inserted.[Id]
+            values(
+                    NEWID(), 
+                    @Title, 
+                    @Url, 
+                    @Summary, 
+                    @Order, 
+                    @Description, 
+                    @Featured) 
+            ";
+
+            var id = connection.ExecuteScalar<Guid>(insertSql, new
+            {
+                category.Title,
+                category.Url,
+                category.Description,
+                category.Order,
+                category.Summary,
+                category.Featured
+            });
+
+            Console.WriteLine($"A categoria inserida foi: {id}");
         }
     }
 }
