@@ -29,17 +29,30 @@ namespace DataAccess
             var insertSql = @"INSERT INTO 
                     [Category] 
                 values(
-                    id, 
-                    title, 
-                    url, 
-                    summary, 
-                    order, 
-                    description, 
-                    featured)";
+                    @Id, 
+                    @Title, 
+                    @Url, 
+                    @Summary, 
+                    @Order, 
+                    @Description, 
+                    @Featured)";
 
 
             using (var connection = new SqlConnection(connectionString))
             {
+                var rows = connection.Execute(insertSql, new
+                {
+                    category.Id,
+                    category.Title,
+                    category.Url,
+                    category.Description,
+                    category.Order,
+                    category.Summary,
+                    category.Featured
+                });
+
+                System.Console.WriteLine($"{rows} linhas inseridas");
+
                 var categories = connection.Query<Category>("SELECT [Id], [Title] FROM [Category]");
                 foreach (var item in categories)
                 {
