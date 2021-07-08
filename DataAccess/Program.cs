@@ -18,9 +18,12 @@ namespace DataAccess
 
             using (var connection = new SqlConnection(connectionString))
             {
-                UpdateCategory(connection);
+                //CreateManyCategory(connection);
+                //UpdateCategory(connection);
                 ListCategories(connection);
                 //CreateCategory(connection);
+                //GetCategory(connection);
+
             }
 
         }
@@ -37,6 +40,18 @@ namespace DataAccess
 
         }
 
+        static void GetCategory(SqlConnection connection)
+        {
+            var category = connection
+                .QueryFirstOrDefault<Category>(
+                    "SELECT TOP 1 [Id], [Title] FROM [Category] WHERE [Id]=@id",
+                    new
+                    {
+                        id = "af3407aa-11ae-4621-a2ef-2028b85507c4"
+                    });
+            Console.WriteLine($"{category.Id} - {category.Title}");
+
+        }
 
         static void CreateCategory(SqlConnection connection)
         {
@@ -72,9 +87,9 @@ namespace DataAccess
                 category.Featured
             });
 
+            Console.WriteLine($"{rows} linhas inseridas");
 
         }
-
 
         static void UpdateCategory(SqlConnection connection)
         {
@@ -86,5 +101,82 @@ namespace DataAccess
             });
             System.Console.WriteLine($"{rows} registros atualizados");
         }
+
+        static void DeleteCategory(SqlConnection connection)
+        {
+            var deleteQuery = "DELETE [Category] WHERE [Id]=@id";
+            var rows = connection.Execute(deleteQuery, new
+            {
+                id = new Guid("ea8059a2-e679-4e74-99b5-e4f0b310fe6f"),
+            });
+
+            Console.WriteLine($"{rows} registros excluídos");
+        }
+
+        static void CreateManyCategory(SqlConnection connection)
+        {
+            var category = new Category();
+            category.Id = Guid.NewGuid();
+            category.Title = "Amazon AWS";
+            category.Url = "amazon";
+            category.Description = "Categoria destinada a serviços do AWS";
+            category.Order = 8;
+            category.Summary = "AWS Cloud";
+            category.Featured = false;
+
+            var category2 = new Category();
+            category2.Id = Guid.NewGuid();
+            category2.Title = "Categoria Nova";
+            category2.Url = "Categoria-Nova";
+            category2.Description = "Categoria nova";
+            category2.Order = 9;
+            category2.Summary = "Categoria";
+            category2.Featured = true;
+
+
+            var insertSql = @"INSERT INTO 
+                    [Category] 
+                values(
+                    @Id, 
+                    @Title, 
+                    @Url, 
+                    @Summary, 
+                    @Order, 
+                    @Description, 
+                    @Featured)";
+
+            var rows = connection.Execute(insertSql, new[]{
+                new
+            {
+
+                category.Id,
+                category.Title,
+                category.Url,
+                category.Description,
+                category.Order,
+                category.Summary,
+                category.Featured
+            },
+                new
+            {
+                category2.Id,
+                category2.Title,
+                category2.Url,
+                category2.Description,
+                category2.Order,
+                category2.Summary,
+                category2.Featured
+
+            }
+
+            }
+
+            );
+
+            Console.WriteLine($"{rows} linhas inseridas");
+
+        }
+
     }
 }
+
