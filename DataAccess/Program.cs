@@ -256,6 +256,24 @@ namespace DataAccess
                 System.Console.WriteLine($"{item.Id} - {item.Title}");
             }
         }
+
+        static void OneToOne(SqlConnection connection)
+        {
+            var sql = @"
+            SELECT 
+                * 
+            FROM 
+                [CareerItem] 
+            INNER JOIN 
+                [Course] ON [CareerItem].[CourseId] = [Course].[Id]";
+
+            var items = connection.Query(sql);
+
+            foreach (var item in items)
+            {
+                System.Console.WriteLine();
+            }
+        }
     }
 }
 
