@@ -3,6 +3,8 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using DataAccess.Models;
 using System.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 // Dapper
 
@@ -300,10 +302,22 @@ namespace DataAccess
             ORDER BY 
                 [career].[Title]";
 
-            var careers = connection.Query<Career, CareerItem, Career>(
+            var careers = new List<Career>();
+            var items = connection.Query<Career, CareerItem, Career>(
                 sql,
-                (career, Item) =>
+                (career, item) =>
                 {
+                    var car = careers.Where(x => x.Id == career.Id).FirstOrDefault();
+                    if (car == null)
+                    {
+                        car = career;
+                        car.Items.Add(item);
+                        careers.Add(car);
+                    }
+                    else
+                    {
+                        car.Items.Add(item);
+                    }
                     return career;
                 }, splitOn: "CareerId"
                 );
