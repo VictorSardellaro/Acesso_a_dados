@@ -28,7 +28,8 @@ namespace DataAccess
                 //ExecuteReadProcedure(connection);
                 //ExecuteScalar(connection);
                 //ReadView(connection);
-                OneToOne(connection);
+                //OneToOne(connection);
+                OneToMany(connection);
 
             }
 
@@ -281,6 +282,41 @@ namespace DataAccess
             {
                 System.Console.WriteLine($"{item.Title} - Corse: {item.Course.Title}");
             }
+        }
+
+        static void OneToMany(SqlConnection connection)
+        {
+
+            var sql = @"
+            SELECT
+                [Career].[Id],
+                [Career].[Title],
+                [CareerItem].[CareerId],
+                [CareerItem].[Title]
+            FROM
+                [Career]
+            INNER JOIN
+                [CareerItem] ON [CareerItem].[CareerId] = [Career].[Id]
+            ORDER BY 
+                [career].[Title]";
+
+            var careers = connection.Query<Career, CareerItem, Career>(
+                sql,
+                (career, Item) =>
+                {
+                    return career;
+                }, splitOn: "CareerId"
+                );
+
+            foreach (var career in careers)
+            {
+                System.Console.WriteLine($"{career.Title}");
+                foreach (var item in career.Items)
+                {
+                    System.Console.WriteLine($" - {item.Title}");
+                }
+            }
+
         }
     }
 }
