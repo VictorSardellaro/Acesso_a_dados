@@ -27,7 +27,8 @@ namespace DataAccess
                 //GetCategory(connection);
                 //ExecuteReadProcedure(connection);
                 //ExecuteScalar(connection);
-                ReadView(connection);
+                //ReadView(connection);
+                OneToOne(connection);
 
             }
 
@@ -267,11 +268,18 @@ namespace DataAccess
             INNER JOIN 
                 [Course] ON [CareerItem].[CourseId] = [Course].[Id]";
 
-            var items = connection.Query(sql);
+            var items = connection.Query<CareerItem, Course, CareerItem>(
+                sql,
+                (careerItem, course) =>
+                {
+                    careerItem.Course = course;
+                    return careerItem;
+                }, splitOn: "Id"
+                );
 
             foreach (var item in items)
             {
-                System.Console.WriteLine();
+                System.Console.WriteLine($"{item.Title} - Corse: {item.Course.Title}");
             }
         }
     }
